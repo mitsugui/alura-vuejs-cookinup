@@ -2,7 +2,7 @@
 export default {
     data() {
         return {
-            ingredientes: ['Alho', 'Manteiga', 'Orégano', 'Cebola']
+            ingredientes: [ 'Alho', 'Manteiga', 'Orégano', 'Cebola' ]
         }
     }
 }
@@ -12,14 +12,19 @@ export default {
     <main class="conteudo-principal">
         <section>
             <span class="subtitulo-lg sua-lista-texto">
-                Sua lista: {{ x }}
+                Sua lista:
             </span>
 
-            <ul class="ingredientes-sua-lista">
-                <li v-for="ingrediente in ingredientes" class="ingrediente">
+            <ul v-if="ingredientes.length > 0" class="ingredientes-sua-lista">
+                <li v-for="ingrediente in ingredientes" :key="ingrediente" class="ingrediente">
                     {{ingrediente}}
                 </li>
             </ul>
+
+            <p v-else class="paragrafo lista-vazia">
+                <img src="../assets/images/icones/lista-vazia.svg" alt="Ícone de pesquisa">
+                Sua lista de ingredientes está vazia. Adicione ingredientes para começar a explorar novas receitas!
+            </p>
         </section>
     </main>
 </template>
