@@ -1,4 +1,6 @@
 <script lang="ts">
+import { obterReceitas } from '@/http/index';
+import type IReceita from '@/interfaces/IReceita';
 import BotaoPrincipal from './BotaoPrincipal.vue';
 import CardReceita from './CardReceita.vue';
 
@@ -9,19 +11,13 @@ export default {
     },
     data() {
         return {
-            receitas: [
-                {
-                    nome: 'Pasta de alho assado',
-                    imagem: 'pasta_de_alho_assado.png'
-                },
-                {
-                    nome: 'Patê de alho assado',
-                    imagem: 'pate_de_alho_assado.png'
-                }
-            ]
+            receitas: [] as IReceita[]
         }
     },
-    emits: ['editarLista']
+    emits: ['editarLista'],
+    async created() {
+        this.receitas = await obterReceitas();
+    }
 }
 </script>
 
