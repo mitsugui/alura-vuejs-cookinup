@@ -5,7 +5,7 @@ import Tag from './Tag.vue';
 export default {
     props: {
         ingredientes: {
-            type: Object as PropType<string[]>,
+            type: Array as PropType<string[]>,
             required: true
         }
     },
@@ -23,10 +23,9 @@ export default {
 
         <ul v-if="ingredientes.length > 0" class="ingredientes-sua-lista">
             <li v-for="ingrediente in ingredientes" :key="ingrediente">
-                <Tag :texto="ingrediente" />
+                <Tag :texto="ingrediente" ativa />
             </li>
         </ul>
-
         <p v-else class="paragrafo lista-vazia">
             <img src="../assets/images/icones/lista-vazia.svg" alt="Ícone de pesquisa">
             Sua lista de ingredientes está vazia. Adicione ingredientes para começar a explorar novas receitas!
@@ -35,7 +34,6 @@ export default {
 </template>
 
 <style scoped>
-
 .sua-lista-texto {
     color: var(--coral, #F0633C);
     display: block;
