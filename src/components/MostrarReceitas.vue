@@ -5,19 +5,21 @@ import CardReceita from './CardReceita.vue';
 import BotaoPrincipal from './BotaoPrincipal.vue';
 
 export default {
-    components: {
-        BotaoPrincipal,
-        CardReceita
-    },
     data() {
         return {
-            receitas: [] as IReceita[]
+            receitasEncontradas: [] as IReceita[]
         }
     },
-    emits: ['editarLista'],
     async created() {
-        this.receitas = await obterReceitas();
-    }
+        const receitas = await obterReceitas();
+
+        this.receitasEncontradas = receitas.slice(0, 8);
+    },
+    components: {
+        CardReceita,
+        BotaoPrincipal
+    },
+    emits: ['editarLista']
 }
 </script>
 
@@ -25,25 +27,31 @@ export default {
     <section class="mostrar-receitas">
         <h1 class="cabecalho titulo-receitas">Receitas</h1>
 
-        <p class="paragrafo-lg instrucoes">
-            Resultados encontrados: {{ receitas.length }}
+        <p class="paragrafo-lg resultados-encontrados">
+            Resultados encontrados: {{ receitasEncontradas.length }}
         </p>
 
-        <p v-if="receitas.length" class="paragrafo-lg instrucoes">
-            Veja as opções de receitas que encontramos com os ingredientes que você tem por aí!
-        </p>
-        <p v-else class="paragrafo-lg instrucoes">
-            Ops, não encontramos resultados para sua combinação. Vamos tentar de novo?
-        </p>
+        <div v-if="receitasEncontradas.length" class="receitas-wrapper">
+            <p class="paragrafo-lg informacoes">
+                Veja as opções de receitas que encontramos com os ingredientes que você tem por aí!
+            </p>
 
-        <ul v-if="receitas.length" class="receitas">
-            <li v-for="receita in receitas" :key="receita.nome">
-                <CardReceita :receita="receita" />
-            </li>
-        </ul>
-        <img v-else src="../assets/images/sem-receitas.png" alt="Sem resultados" />
+            <ul class="receitas">
+                <li v-for="receita in receitasEncontradas" :key="receita.nome">
+                    <CardReceita :receita="receita" />
+                </li>
+            </ul>
+        </div>
+        <div v-else class="receitas-nao-encontradas">
+            <p class="paragrafo-lg receitas-nao-encontradas__info">
+                Ops, não encontramos resultados para sua combinação. Vamos tentar de novo?
+            </p>
+        </div>
 
-        <BotaoPrincipal :texto="'Editar lista'" @click="$emit('editarLista')" />
+        <img v-else src="../assets/images/sem-receitas.png"
+            alt="Desenho de um ovo quebrado. A gema tem um rosto com uma expressão triste." />
+
+        <BotaoPrincipal texto="Editar lista" @click="$emit('editarLista')" />
     </section>
 </template>
 
@@ -52,15 +60,24 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
 }
 
 .titulo-receitas {
     color: var(--verde-medio, #3D6D4A);
-    display: block;
     margin-bottom: 1.5rem;
 }
 
-.instrucoes {
+.resultados-encontrados {
+    color: var(--verde-medio, #3D6D4A);
+    margin-bottom: 0.5rem;
+}
+
+.receitas-wrapper {
+    margin-bottom: 3.5rem;
+}
+
+.informacoes {
     margin-bottom: 2rem;
 }
 
@@ -73,9 +90,17 @@ export default {
     list-style-type: none;
 }
 
+.receitas-nao-encontradas {
+    margin-bottom: 2rem;
+}
+
+.receitas-nao-encontradas__info {
+    margin-bottom: 0.5rem;
+}
+
 @media only screen and (max-width: 767px) {
-    .dica {
-        margin-bottom: 2.5rem;
-    }
+  .receitas-wrapper {
+    margin-bottom: 2rem;
+  }
 }
 </style>

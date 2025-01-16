@@ -14,42 +14,44 @@ export default {
 
 <template>
     <article class="receita">
-        <header>
-            <img :src="`/imagens/receitas/${receita.imagem}`" alt="" class="imagem">
-
-            <h2 class="paragrafo receita__nome">{{ receita.nome }}</h2>
+        <header class="receita__cabecalho">
+            <img class="receita__imagem" :src="`/imagens/receitas/${receita.imagem}`" :alt="`Foto de ${receita.nome}`">
         </header>
+
+        <section class="receita__corpo">
+            <h2 class="paragrafo receita__nome">
+                {{ receita.nome }}
+            </h2>
+        </section>
     </article>
 </template>
 
 <style scoped>
 .receita {
-    width: 17.625rem;
-    border-radius: 1rem;
-    background: var(--branco, #FFF);
-    box-shadow: 4px 4px 10px 0px rgba(68, 68, 68, 0.05);
-    height: 14.75rem;
-
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+
+    width: 17.625rem;
+    max-width: 19.5rem;
+
+    border-radius: 1rem;
+    background: var(--Branco, #FFF);
+    box-shadow: 4px 4px 10px 0px rgba(68, 68, 68, 0.05);
 }
 
-.imagem {
-    border-radius: 1rem 1rem 0 0;
-    display: block;
-    max-width: 17.625rem;
-    max-height: 9.375rem;
-    width: 17.625rem;
-    height: 9.375rem;
+.receita__corpo {
+  padding: 2rem 1rem;
+}
+
+.receita__imagem {
+  width: 100%;
+  border-radius: 1rem 1rem 0rem 0rem;
+  display: block;
 }
 
 .receita__nome {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 5.375rem;
-    font-weight: 300;
+    font-weight: 700;
+    color: var(--cinza, #444);
 }
 </style>
